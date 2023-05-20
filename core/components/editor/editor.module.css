@@ -1,0 +1,54 @@
+.root {
+  height: 100%;
+  padding-bottom: 45px;
+  border: none;
+}
+.root [class='ql-toolbar ql-snow'] {
+  background: bgSecondary;
+  border: none !important;
+  padding: 10px 0 !important;
+}
+.root [class='ql-container ql-snow'] {
+  border: none !important;
+  background: 'transparent';
+}
+.root [class='ql-tooltip ql-editing'][data-mode='video'] {
+  top: -10px !important;
+  right: 0 !important;
+  left: unset !important;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+}
+.root [class='ql-editor'] {
+  padding: 12px 15px !important;
+}
+.root [class='ql-editor ql-blank'] {
+  padding: 12px 15px !important;
+  font-size: 16px;
+}
+.root [class='ql-editor ql-blank']::before {
+  font-style: normal !important;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  left: 15px !important;
+}
+@media only screen and (max-width: 768px) {
+  .root [class='ql-editor ql-blank']::before {
+    font-size: 14px;
+  }
+}
+.root [class='ql-container ql-snow'] [class='ql-editor'] {
+  font-size: 12px;
+}
+.root [nft='true']::before {
+  content: attr(data-nft-tag);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #000;
+  color: #fff;
+}
+.create-post [class='ql-toolbar ql-snow'] {
+  margin-bottom: 125px;
+}

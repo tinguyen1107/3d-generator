@@ -1,0 +1,194 @@
+* {
+  font-family: 'Lato', sans-serif;
+}
+body {
+  background: var(--chakra-colors-bgBody) !important;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+}
+a {
+  text-decoration: none;
+}
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+
+.date-picker .rs-calendar-table-cell {
+  color: #575757;
+}
+.date-picker .rs-picker-toggle {
+  background: transparent !important;
+  color: transparent;
+  border: 2px solid #353945;
+  border-radius: var(--chakra-radii-xl);
+  padding-top: 5.5px;
+  padding-bottom: 5.5px;
+  box-shadow: none;
+  transition: 200ms;
+}
+
+.date-picker .rs-picker-toggle:hover {
+  border-color: #353945 !important;
+}
+
+.date-picker .rs-picker-toggle.rs-picker-toggle-active {
+  border-color: #777e90 !important;
+}
+
+.date-picker-invalid .rs-picker-toggle,
+.date-picker-invalid .rs-picker-toggle:hover,
+.date-picker-invalid .rs-picker-toggle.rs-picker-toggle-active {
+  border-color: #e53e3e !important;
+}
+
+.date-picker .rs-picker-toggle-textbox {
+  padding-left: 5px;
+  font-size: 16px;
+  background: transparent !important;
+  opacity: 1;
+  height: 25px;
+  position: relative;
+}
+.date-picker .rs-picker-toggle-placeholder,
+.date-picker .rs-picker-toggle-value {
+  display: none;
+}
+/* .date-picker-menu {
+  background: #333;
+}
+.date-picker-menu .rs-calendar-table-cell-disabled {
+  opacity: 0.2;
+} */
+
+.rs-btn {
+  font-weight: 600;
+}
+.rs-btn-primary {
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  background-image: linear-gradient(to right, #4776e6 0%, #8e54e9 51%, #4776e6 100%);
+  box-shadow: none;
+}
+.rs-btn-primary:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.rs-dropdown .rs-dropdown-menu {
+  box-shadow: none;
+  background: none;
+}
+.rs-dropdown-menu > div {
+  box-shadow: 0 0 10px #0005;
+  overflow: hidden;
+}
+
+img[class=' sb-avatar__image'] {
+  object-fit: cover;
+}
+.react-simple-image-viewer__modal {
+  z-index: 101;
+}
+.react-simple-image-viewer__close {
+  color: #ffbf91 !important;
+  opacity: 1 !important;
+}
+.link-preview-container {
+  border: 'none';
+}
+.link-preview-container:hover {
+  background-color: #222 !important;
+}
+.Container.link-preview-container:hover {
+  background-color: #222 !important;
+}
+.chakra-popover__arrow {
+  box-shadow: none !important;
+}
+.pac-container {
+  z-index: 100000000;
+}
+.reactGiphySearchbox-componentWrapper {
+  width: 100% !important;
+}
+
+.chakra-ui-light .ql-blank::before {
+  color: #a6a6aa !important;
+  font-weight: 500;
+}
+.ql-blank::before {
+  color: #a6a6aa !important;
+  font-weight: 500;
+}
+
+.search-form-gif input {
+  background: transparent;
+  border-radius: 5px;
+}
+
+.ql-editor {
+  word-break: break-word;
+  font-size: 16px;
+  color: var(--chakra-colors-textSloganHomepage);
+  padding: 0 !important;
+}
+.ql-editor img {
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 30px auto;
+}
+.ql-editor iframe {
+  width: 100%;
+  height: calc(0vw);
+  max-height: calc(590.625px);
+}
+.ql-editor .ql-code-block-container {
+  background: #222;
+  padding: 10px;
+  color: #f8f7fa;
+  border-radius: 5px;
+  font-family: monospace;
+}
+.ql-editor a {
+  color: #1d9bf0;
+}
+.ql-editor a:hover {
+  text-decoration: underline;
+}
+.chakra-popover__popper {
+  box-shadow: 5px 5px 10px #0005;
+  border-radius: 8px;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #00000033;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a6a6aa88;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #32334088;
+}

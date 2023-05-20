@@ -1,0 +1,11 @@
+* {
+  font-family: 'Urbanist', sans-serif;
+}
+p {
+  color: white;
+}
+
+a {
+  text-decoration: inherit !important;
+  color: inherit !important;
+}
