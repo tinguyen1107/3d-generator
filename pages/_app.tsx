@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { theme } from '../theme';
 import { useInitialize } from '../hooks';
 import RepIcon from '../assets/logos/RepIcon.svg';
-import '../container';
 
 import NextNProgress from 'nextjs-progressbar';
 
@@ -116,20 +115,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         {appState.ready.value && getLayout(<Component {...pageProps} />)}
         {appState.ready.value && (
           // <StorageDepositModal />
-          // <ConnectWalletModal />
-          // <SayModal />
-          // <PlaceChestModal />
-          // <MintChestModal />
-          // <AddStorageBalanceModal />
-          // <ComposeMessageModal />
-          // <SelectGifModal />
-          // <CreateArticleModal />
-          // <ReportModal />
-          // <SharePostModal />
-          // <AccountViewAllModal />
-          // <SelectVideoModal />
-          // <PostOptionModal />
-          // <ArStorageDepositModal />
           <></>
         )}
       </ChakraProvider>

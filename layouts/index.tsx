@@ -15,15 +15,7 @@ type LayoutProps = {
   showPostViewByBar?: boolean;
 };
 
-export const Layout: React.FunctionComponent<LayoutProps> = ({
-  type = '1_2_1',
-  midChildren,
-  rightChildren,
-  title,
-  privateKey,
-  isBack,
-  showPostViewByBar,
-}) => {
+export const Layout: React.FunctionComponent<LayoutProps> = ({ type = '1_2_1', midChildren, rightChildren }) => {
   const headerHeight = { base: '55px', md: '80px' };
   const headerRef = React.useRef<any>();
   const col_span_left = {

@@ -1,6 +1,4 @@
 import BN from 'bn.js';
-export * from './cache-prefix-keys';
-export * from './storage-keys';
 
 export const PRICE_FRACTION_DIGITS = 3;
 export const RATIO_AMOUT_TO_CREATE_TASK = 110 / 100;
@@ -25,6 +23,3 @@ XvzVOKNnzGUgVg5m+1gWlFFeEdGDwUycKkpudT3aglre0fWl3B4Ca8QewwSmJA8C\
 FXTh59BCZP2ZAC6QGMPmNoa8FcoURihO2th8BzZhjcFgozMB60zyOQwQKNIu0MfT\
 dQIDAQAB\
 -----END PUBLIC KEY-----';
-
-export * from './contract';
-export * from './near';

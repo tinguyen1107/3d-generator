@@ -1,9 +1,3 @@
-import { NearConnector } from '../blockchain/near';
-
-export type Container = {
-  bcConnector: NearConnector;
-};
-
 export type ApiGetListInput = {
   from_index: number;
   limit: number;
