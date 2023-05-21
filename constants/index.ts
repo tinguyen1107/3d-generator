@@ -1,5 +1,3 @@
-import BN from 'bn.js';
-
 export const PRICE_FRACTION_DIGITS = 3;
 export const RATIO_AMOUT_TO_CREATE_TASK = 110 / 100;
 export const FETCH_POSTS_LIMIT = 8;
@@ -9,7 +7,6 @@ export const CHAT_PRIVATE_KEY = 'chat_private_key';
 export const IPFS_UPLOAD_SERVER_URL = 'https://ipfs-server.vercel.app';
 export const IPFS_HOST = 'rep-run.infura-ipfs.io';
 export const IPFS_BASE_URL = 'https://rep-run.infura-ipfs.io/ipfs/';
-export const MIN_ENOUGH_STORAGE_BALANCE = new BN('100000000000000000000000'); // 0.1 NEAR
 export const FILE_LIMIT_SIZE = 4.5 * 1024 * 1024;
 export const CREATE_POST_REDIRECT = 'create_post_redirect';
 export const LIKE_TASKS = 'like_tasks';

@@ -6,6 +6,7 @@ import { Canvas, useLoader } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls } from '@react-three/drei';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { ModelRender } from '../components';
+import axios from 'axios';
 
 export default function LandingPage() {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -17,7 +18,7 @@ export default function LandingPage() {
     if (!!inputRef.current && !!inputRef.current.value) {
       const value = inputRef.current.value;
 
-      const res = await blackbox(value);
+      const res = (await blackbox(value)) as [string];
       setListItem(res);
 
       // Clear input field
@@ -27,7 +28,12 @@ export default function LandingPage() {
 
   const blackbox = React.useCallback(async (input: string) => {
     console.log(input);
-    return ['1.obj', '2.obj', '3.obj', '4.obj'];
+    let url = new URL('/predict', 'http://0.0.0.0:8888');
+    url.searchParams.append('n_item', '4');
+    url.searchParams.append('sentence', input);
+    const res = (await axios.get(url.toString())).data;
+    return res.abc.pred_ids;
+    // return ['1.obj', '2.obj', '3.obj', '4.obj'];
   }, []);
 
   return (
