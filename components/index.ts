@@ -1,1 +1,1 @@
-export * from './ModelRender';
+export * from './wrapper';
