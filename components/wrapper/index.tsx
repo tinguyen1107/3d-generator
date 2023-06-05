@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { ContactShadows, Environment, OrbitControls } from '@react-three/drei';
 import { Suspense } from 'react';
-import { ModelRender } from '../';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Box3, Vector3 } from 'three';
 
@@ -37,7 +36,7 @@ export const Wrapper = ({ link }: { link: string }) => {
       }}
     >
       <Suspense fallback={null}>
-        <ModelRender link={link} />
+        <primitive object={obj} scale={1} />
         <ambientLight intensity={0.4} castShadow />
         <spotLight intensity={0.9} angle={0.1} penumbra={0} position={[30, 100, 25]} castShadow />
         <Environment preset="dawn" background={false} blur={1} />
