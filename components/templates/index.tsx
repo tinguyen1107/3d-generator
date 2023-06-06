@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, HStack, TableContainer, Tbody, Td, Text, Th, Thead, Tr, Table, Box } from '@chakra-ui/react';
 import moment from 'moment';
+import { ScreenId } from '../../pages';
 
 type Template = {
   id: string;
@@ -9,26 +10,30 @@ type Template = {
   createdAt: number;
 };
 
-type TemplateStatus = 'pending' | 'training' | 'running' | 'ready';
+type TemplateStatus = 'pending' | 'training' | 'finished';
 
-export const Templates = () => {
+interface TemplatesProps {
+  router: (id: ScreenId) => void;
+}
+
+export const Templates = ({ router }: TemplatesProps) => {
   const data: Template[] = [
     {
       id: 'template_01',
       name: 'test 01',
-      status: 'running',
+      status: 'pending',
       createdAt: moment('11/05/2023 15:12', 'DD/MM/YYYY HH:mm').unix(),
     },
     {
       id: 'template_02',
       name: 'test 02',
-      status: 'running',
+      status: 'finished',
       createdAt: moment('11/05/2023 15:12', 'DD/MM/YYYY HH:mm').unix(),
     },
     {
       id: 'template_03',
       name: 'test 03',
-      status: 'running',
+      status: 'training',
       createdAt: moment('11/05/2023 15:12', 'DD/MM/YYYY HH:mm').unix(),
     },
   ];
@@ -39,10 +44,10 @@ export const Templates = () => {
         <Text fontSize="36px" fontWeight="700">
           Zoogle | Templates
         </Text>
-        <Button>Create new template</Button>
+        <Button onClick={() => router('create-template')}>Create new template</Button>
       </HStack>
       <TableContainer mt="20px">
-        <Table variant="striped" colorScheme="teal">
+        <Table variant="striped" colorScheme="blackAlpha">
           <Thead>
             <Tr>
               <Th>Name</Th>
@@ -56,8 +61,8 @@ export const Templates = () => {
               <Tr>
                 <Td>{e.name}</Td>
                 <Td>
-                  <Box p="5px" bg="green.300" w="fit-content" borderRadius="5px">
-                    <Text fontWeight="800" color="white">
+                  <Box w="100px" p="5px 0" textAlign="center" bg="green.300" borderRadius="5px">
+                    <Text fontWeight="700" color="white">
                       {e.status.toUpperCase()}
                     </Text>
                   </Box>
@@ -75,19 +80,24 @@ export const Templates = () => {
   );
 };
 
+// TODO: fetch training status each 10s
+
 const TemplateAction = ({ template }: { template: Template }) => {
   const title = React.useMemo(() => {
     switch (template.status) {
       case 'pending':
         return 'Train';
       case 'training':
-        return 'Pause';
-      case 'ready':
-        return 'Enable';
-      case 'running':
-        return 'Disable';
+        // TODO:
+        return 'Waiting...';
+      case 'finished':
+        return 'Re-Train';
     }
   }, [template.status]);
 
-  return <Button>{title}</Button>;
+  return (
+    <Button width="120px" colorScheme="blue" isDisabled={template.status == 'training'}>
+      {title}
+    </Button>
+  );
 };

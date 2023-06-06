@@ -17,6 +17,7 @@ import PouchDB from 'pouchdb';
 import PouchDBFind from 'pouchdb-find';
 import '../styles/variables.css';
 import '../styles/global.css';
+import { WarningModal } from '../components';
 
 PouchDB.plugin(PouchDBFind);
 
@@ -115,7 +116,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         {appState.ready.value && getLayout(<Component {...pageProps} />)}
         {appState.ready.value && (
           // <StorageDepositModal />
-          <></>
+          <>
+            <WarningModal />
+          </>
         )}
       </ChakraProvider>
     </QueryClientProvider>

@@ -47,6 +47,7 @@ export const Playround = () => {
     return result.map((e) => e + '.obj');
   }, []);
 
+  // TODO: select models
   return (
     <>
       <Text fontSize="36px" fontWeight="700">
