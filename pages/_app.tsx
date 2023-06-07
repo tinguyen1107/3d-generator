@@ -115,7 +115,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         )}
         {appState.ready.value && getLayout(<Component {...pageProps} />)}
         {appState.ready.value && (
-          // <StorageDepositModal />
           <>
             <WarningModal />
           </>

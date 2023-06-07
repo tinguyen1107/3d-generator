@@ -14,7 +14,4 @@ export const NumberInput = {
       },
     }),
   },
-  defaultProps: {
-    variant: 'primary',
-  },
 };

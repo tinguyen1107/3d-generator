@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from 'next/head';
 import { Box, IconButton, HStack, VStack } from '@chakra-ui/react';
-import { Playround, Templates, CreateTemplate } from '../components';
+import { Playground, Templates, CreateTemplate } from '../components';
 import { FiGithub, FiPlus } from 'react-icons/fi';
 import { ImLab } from 'react-icons/im';
 import { ModalUtils } from '../utils';
@@ -26,17 +26,17 @@ export default function HomePage() {
       <Header>
         <title>Zoogle</title>
       </Header>
-      <HStack gap="0">
-        <VStack bg="#0002" h="100vh" p="12px">
+      <HStack spacing="0">
+        <VStack bg="#0002" h="100vh" p="12px"> {/* 64px */}
           <IconButton onClick={() => navigate('playround')} aria-label="Play with model" icon={<FiGithub />} />
           <IconButton onClick={() => navigate('templates')} aria-label="Training area" icon={<ImLab />} />
           <IconButton onClick={() => navigate('create-template')} aria-label="Training area" icon={<FiPlus />} />
         </VStack>
-        <Box flex="1" display="flex" flexDir="column" p="20px 40px" h="100vh">
+        <Box flex="1" display="flex" flexDir="column" p="20px 40px" h="100vh" w="calc(100vw - 64px)">
           {(() => {
             switch (screenId) {
               case 'playround':
-                return <Playround />;
+                return <Playground />;
               case 'templates':
                 return <Templates router={setScreenId} />;
               case 'create-template':

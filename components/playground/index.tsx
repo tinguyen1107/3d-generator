@@ -9,7 +9,7 @@ type PredictDto = {
   };
 };
 
-export const Playround = () => {
+export const Playground = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [listItem, setListItem] = React.useState<string[]>([]);
   const [isLoading, setLoading] = React.useState<boolean>(false);
@@ -58,7 +58,9 @@ export const Playround = () => {
       </Text>
       <HStack mt="10px">
         <Input ref={inputRef} placeholder="Abc.." />
-        <Button onClick={handleOnSubmitButtonClick}>Submit</Button>
+        <Button colorScheme="blue" onClick={handleOnSubmitButtonClick}>
+          Submit
+        </Button>
       </HStack>
       <Box overflowY="auto">
         {isLoading ? (

@@ -1,4 +1,5 @@
 export * from './account.dto';
+export * from './template.dto';
 
 export interface GlobalConfig {
   username: string;

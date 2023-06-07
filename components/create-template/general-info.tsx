@@ -7,7 +7,7 @@ export const GeneralInfoForm = ({ parentForm }: FormProps) => {
     <form>
       <VStack mt="10px" align="start">
         <Text fontSize="24px" fontWeight="800">
-          Template General Information
+          Template General Information (1/4)
         </Text>
         <FormControl>
           <FormLabel>Name</FormLabel>
