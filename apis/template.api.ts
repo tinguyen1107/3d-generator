@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { BASE_URL } from '../constants';
-import { Template } from '../dtos';
+import { Template, TemplateStatus } from '../dtos';
 
 export const TemplateApi = Object.freeze({
   async getTemplates(): Promise<Template[]> {
@@ -30,6 +30,18 @@ export const TemplateApi = Object.freeze({
       },
     ];
     return data;
+  },
+  async getTemplateStatusById(id: string): Promise<TemplateStatus> {
+    console.log(id, "fetch")
+    // try {
+    //   const res = await axios.get(BASE_URL + '/template_management/template/list');
+    // } catch (e) { }
+    // return res.data;
+    if (id == "template_01") return 'pending'
+    else if (id == "template_02") return "training"
+    else if (id == "template_03") return "finished"
+
+    return 'pending'
   },
 });
 

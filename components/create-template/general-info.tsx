@@ -4,16 +4,14 @@ import { FormProps } from './';
 
 export const GeneralInfoForm = ({ parentForm }: FormProps) => {
   return (
-    <form>
-      <VStack mt="10px" align="start">
-        <Text fontSize="24px" fontWeight="800">
-          Template General Information (1/4)
-        </Text>
-        <FormControl>
-          <FormLabel>Name</FormLabel>
-          <Input {...parentForm.register('name')} />
-        </FormControl>
-      </VStack>
-    </form>
+    <VStack mt="10px" align="start">
+      <Text fontSize="24px" fontWeight="800">
+        Template General Information (1/4)
+      </Text>
+      <FormControl>
+        <FormLabel>Name</FormLabel>
+        <Input {...parentForm.register('name')} />
+      </FormControl>
+    </VStack>
   );
 };

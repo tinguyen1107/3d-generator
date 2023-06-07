@@ -44,7 +44,7 @@ export const WarningModal = () => {
               onClose();
             }}
           >
-            Continue
+            Navigate
           </Button>
         </ModalFooter>
       </ModalContent>

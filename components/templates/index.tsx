@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, HStack, TableContainer, Tbody, Text, Th, Thead, Tr, Table } from '@chakra-ui/react';
+import { Box, Button, HStack, TableContainer, Tbody, Text, Th, Thead, Tr, Table } from '@chakra-ui/react';
 import { ScreenId } from '../../pages';
 import { useQuery } from 'react-query';
 import { TemplateApi } from '../../apis';
@@ -37,8 +37,10 @@ export const Templates = ({ router }: TemplatesProps) => {
             </Tr>
           </Thead>
           <Tbody>
-            {templates.map((e) => (
-              <TemplateRow template={e} />
+            {templates.map((e, id) => (
+              <Tr key={id}>
+                < TemplateRow template={e} />
+              </Tr>
             ))}
           </Tbody>
         </Table>

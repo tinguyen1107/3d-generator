@@ -1,7 +1,9 @@
 import React from 'react';
-import { Td, Text, Tr, Box, Button } from '@chakra-ui/react';
+import { Td, Text, Box, Button } from '@chakra-ui/react';
 import moment from 'moment';
 import { Template } from '../../dtos';
+import { TemplateApi } from '../../apis';
+import { useQuery } from 'react-query';
 
 const TemplateAction = ({ template }: { template: Template }) => {
   const title = React.useMemo(() => {
@@ -22,23 +24,28 @@ const TemplateAction = ({ template }: { template: Template }) => {
   );
 };
 
-export const TemplateRow = ({ template }: { template: Template }) => {
-  // TODO: fetch training status each 10s
+export const TemplateRow: React.FunctionComponent<{ template: Template }> = ({ template }) => {
+  // TODO: fetch training status each 5s
+  const statusQuery = useQuery(["status", template.id], () => TemplateApi.getTemplateStatusById(template.id), { refetchInterval: 1000 * 5 })
+  const status = React.useMemo(() => {
+    if (!!statusQuery.data) return statusQuery.data;
+    return template.status
+  }, [statusQuery.data])
 
   return (
-    <Tr>
+    <>
       <Td>{template.name}</Td>
       <Td>
         <Box w="100px" p="5px 0" textAlign="center" bg="green.300" borderRadius="5px">
           <Text fontWeight="700" color="white">
-            {template.status.toUpperCase()}
+            {status.toUpperCase()}
           </Text>
         </Box>
       </Td>
       <Td>{moment.unix(template.createdAt).format('HH:mm DD/MM/YYYY')}</Td>
       <Td>
-        <TemplateAction template={template} />
+        <TemplateAction template={{ ...template, status }} />
       </Td>
-    </Tr>
+    </>
   );
 };

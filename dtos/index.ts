@@ -129,5 +129,10 @@ export interface TemplateConfig {
 
 export interface CreateTemplateInputs {
   name: string;
-  config: TemplateConfig;
+  config: {
+    data_loader: DataLoaderConfig;
+    model: ModelConfig;
+    trainer: TrainerConfig;
+    callbacks: CallbackConfig[];
+  };
 }

@@ -12,6 +12,7 @@ export default function HomePage() {
   const [screenId, setScreenId] = React.useState<ScreenId>('playround');
   const navigate = React.useCallback(
     (moveTo: ScreenId) => {
+      if (screenId == moveTo) return;
       if (screenId == 'create-template') {
         ModalUtils.warning.onOpen({ continue: () => setScreenId(moveTo) });
         return;
@@ -20,6 +21,20 @@ export default function HomePage() {
     },
     [screenId]
   );
+
+  React.useEffect(() => {
+    if (screenId == 'create-template') {
+      const alertUser = (e: BeforeUnloadEvent) => {
+        e.preventDefault()
+        e.returnValue = ''
+      }
+      window.addEventListener('beforeunload', alertUser)
+      return () => {
+        window.removeEventListener('beforeunload', alertUser)
+      }
+    }
+  }, [screenId])
+
 
   return (
     <>
