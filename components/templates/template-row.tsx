@@ -1,13 +1,13 @@
 import React from 'react';
 import { Td, Text, Box, Button } from '@chakra-ui/react';
 import moment from 'moment';
-import { Template } from '../../dtos';
+import { Template, TemplateStatus } from '../../dtos';
 import { TemplateApi } from '../../apis';
 import { useQuery } from 'react-query';
 
-const TemplateAction = ({ template }: { template: Template }) => {
+const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) => {
   const title = React.useMemo(() => {
-    switch (template.status) {
+    switch (status) {
       case 'pending':
         return 'Train';
       case 'training':
@@ -15,10 +15,10 @@ const TemplateAction = ({ template }: { template: Template }) => {
       case 'finished':
         return 'Re-Train';
     }
-  }, [template.status]);
+  }, [status]);
 
   return (
-    <Button width="120px" colorScheme="blue" isDisabled={template.status == 'training'}>
+    <Button width="120px" colorScheme="blue" isDisabled={status == 'training'}>
       {title}
     </Button>
   );
@@ -26,7 +26,11 @@ const TemplateAction = ({ template }: { template: Template }) => {
 
 export const TemplateRow: React.FunctionComponent<{ template: Template }> = ({ template }) => {
   // TODO: fetch training status each 5s
-  const statusQuery = useQuery(["status", template.id], () => TemplateApi.getTemplateStatusById(template.id), { refetchInterval: 1000 * 5 })
+  const statusQuery = useQuery(
+    ["status", template.id],
+    () => TemplateApi.getTemplateStatusById(template.id),
+    { refetchInterval: 1000 * 5, enabled: template.status == "training" }
+  );
   const status = React.useMemo(() => {
     if (!!statusQuery.data) return statusQuery.data;
     return template.status
@@ -44,7 +48,7 @@ export const TemplateRow: React.FunctionComponent<{ template: Template }> = ({ t
       </Td>
       <Td>{moment.unix(template.createdAt).format('HH:mm DD/MM/YYYY')}</Td>
       <Td>
-        <TemplateAction template={{ ...template, status }} />
+        <TemplateAction id={template.id} status={status} />
       </Td>
     </>
   );
