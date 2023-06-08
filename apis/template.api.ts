@@ -9,6 +9,24 @@ export const TemplateApi = Object.freeze({
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   },
 
+  async getExtractorList(id: string, query: string): Promise<string[]> {
+    try {
+      const url = new URL(`/extractor/list`, BASE_URL);
+      const res = await axios.get(url.toString());
+      return ["abc", "def"];
+    } catch (e) {
+      return []
+    }
+  },
+  async getModels(): Promise<string[]> {
+    try {
+      const url = new URL(`/model/list`, BASE_URL);
+      const res = await axios.get(url.toString());
+      return ["abc", "def"];
+    } catch (e) {
+      return []
+    }
+  },
   async getTemplates(): Promise<Template[]> {
     try {
       const res = await axios.get(BASE_URL + '/template_management/template/list');
@@ -38,9 +56,10 @@ export const TemplateApi = Object.freeze({
   },
   async getTemplateStatusById(id: string): Promise<TemplateStatus> {
     console.log(id, "fetch")
-    // try {
-    //   const res = await axios.get(BASE_URL + '/template_management/template/list');
-    // } catch (e) { }
+    try {
+      const res = await axios.get(BASE_URL + `/template_management/template/${id}/status`);
+      return res.data;
+    } catch (e) { }
     // return res.data;
     if (id == "template_01") return 'pending'
     else if (id == "template_02") return "training"
@@ -49,7 +68,6 @@ export const TemplateApi = Object.freeze({
     return 'pending'
   },
   async createTemplate(templateName: string, templateConfig: TemplateConfig): Promise<boolean> {
-
     try {
       const payload = {
         template_name: templateName,
@@ -63,6 +81,26 @@ export const TemplateApi = Object.freeze({
       return false
     }
   },
+  async trainTemplate(id: string): Promise<boolean> {
+    try {
+      const res = await axios.get(BASE_URL + `/template_machine/train/${id}`);
+      return true;
+    } catch (e) {
+      return false
+    }
+  },
+  async predictWithTemplate(id: string, query: string): Promise<boolean> {
+    try {
+      const url = new URL(`/template_machine/predict/${id}`, BASE_URL);
+      url.searchParams.append("n_item", "4");
+      url.searchParams.append("query", query)
+      const res = await axios.get(url.toString());
+      return true;
+    } catch (e) {
+      return false
+    }
+  },
+
 
 });
 
