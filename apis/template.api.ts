@@ -1,9 +1,14 @@
 import axios from 'axios';
 import moment from 'moment';
 import { BASE_URL } from '../constants';
-import { Template, TemplateStatus } from '../dtos';
+import { Template, TemplateConfig, TemplateStatus } from '../dtos';
+import * as YAML from 'js-yaml';
 
 export const TemplateApi = Object.freeze({
+  sleep(milliseconds: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  },
+
   async getTemplates(): Promise<Template[]> {
     try {
       const res = await axios.get(BASE_URL + '/template_management/template/list');
@@ -43,6 +48,22 @@ export const TemplateApi = Object.freeze({
 
     return 'pending'
   },
+  async createTemplate(templateName: string, templateConfig: TemplateConfig): Promise<boolean> {
+
+    try {
+      const payload = {
+        template_name: templateName,
+        template: YAML.dump(templateConfig),
+      }
+      console.log(payload)
+      await this.sleep(5000)
+      // const res = await axios.post(BASE_URL + '/template_management/template/create', payload);
+      return true
+    } catch (e) {
+      return false
+    }
+  },
+
 });
 
 // const mapToAccounts = (raws: any[]): AccountDto[] => {
