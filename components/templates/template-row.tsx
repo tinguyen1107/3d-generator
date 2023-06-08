@@ -3,9 +3,11 @@ import { Td, Text, Box, Button } from '@chakra-ui/react';
 import moment from 'moment';
 import { Template, TemplateStatus } from '../../dtos';
 import { TemplateApi } from '../../apis';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
+import { CachePrefixKeys } from '../../constants/cache-prefix-keys';
 
 const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) => {
+  const queryClient = useQueryClient();
   const title = React.useMemo(() => {
     switch (status) {
       case 'pending':
@@ -17,8 +19,32 @@ const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) 
     }
   }, [status]);
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
+  const onClick = React.useCallback(async () => {
+    setIsLoading(true)
+    try {
+      switch (status) {
+        case 'pending':
+        case 'finished':
+          await TemplateApi.trainTemplate(id)
+          queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_STATUS, id])
+          break;
+        case 'training':
+          // Do nothing
+          break;
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    finally {
+      setIsLoading(false)
+    }
+  }, [id, status])
+
   return (
-    <Button width="120px" colorScheme="blue" isDisabled={status == 'training'}>
+    <Button
+      width="120px" colorScheme="blue" isDisabled={status == 'training'} isLoading={isLoading} onClick={onClick}>
       {title}
     </Button>
   );
@@ -27,14 +53,14 @@ const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) 
 export const TemplateRow: React.FunctionComponent<{ template: Template }> = ({ template }) => {
   // TODO: fetch training status each 5s
   const statusQuery = useQuery(
-    ["status", template.id],
+    [CachePrefixKeys.TEMPLATE_STATUS, template.id],
     () => TemplateApi.getTemplateStatusById(template.id),
     { refetchInterval: 1000 * 5, enabled: template.status == "training" }
   );
   const status = React.useMemo(() => {
     if (!!statusQuery.data) return statusQuery.data;
     return template.status
-  }, [statusQuery.data])
+  }, [statusQuery.data, template.status])
 
   return (
     <>
