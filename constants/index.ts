@@ -1,4 +1,4 @@
-import { CreateTemplateInputs } from "../dtos";
+import { CreateTemplateInputs, DatasetConfig, GlobalConfig } from "../dtos";
 
 export const PRICE_FRACTION_DIGITS = 3;
 export const RATIO_AMOUT_TO_CREATE_TASK = 110 / 100;
@@ -88,3 +88,32 @@ export const CREATE_TEMPLATE_DEFAULT_VALUE: CreateTemplateInputs = {
   }
 }
 
+export const TEMPLATE_GLOBAL_DEFAULT: GlobalConfig = {
+  username: 'totuanan06',
+  project_name: 'cs422-se-project',
+  name: 'point-cloud',
+  save_dir: './runs',
+  verbose: true,
+  pretrained: null,
+  resume: 0,
+  SEED: 1337,
+};
+
+export const TEMPLATE_DATASET_DEFAULT: DatasetConfig = {
+  train: {
+    params: {
+      text_queries_path: 'dataset/csv/TextQuery_Train.csv',
+      pc_ids_path: 'dataset/csv/ModelID.csv',
+      pc_dir: 'dataset/PC_OBJ',
+      ground_truth_path: 'dataset/csv/TextQuery_GT_Train_v2.csv',
+    },
+  },
+  val: {
+    params: {
+      text_queries_path: 'dataset/csv/TextQuery_Train.csv',
+      pc_ids_path: 'dataset/csv/ModelID.csv',
+      pc_dir: 'dataset/PC_OBJ',
+      ground_truth_path: 'dataset/csv/TextQuery_GT_Val_v2.csv',
+    },
+  },
+};
