@@ -1,43 +1,39 @@
-# Build BASE
-FROM alpine:3.16 as BASE
+FROM node:16-alpine as BASE
+LABEL author="tinguyen"
 
-ENV NODE_VERSION 19.9.0
-
-WORKDIR /appp
+WORKDIR /app
 COPY package.json yarn.lock ./
 RUN apk add --no-cache git \
-    && yarn install --frozen-lockfile \
+    && yarn --frozen-lockfile \
     && yarn cache clean
 
 # Build Image
-FROM alpine:3.16 as BUILD
+FROM node:16-alpine as BUILD
+LABEL author="tinguyen"
 
-ENV NODE_VERSION 19.9.0
-
-WORKDIR /appp
-COPY --from=BASE /appp/node_modules ./node_modules
+WORKDIR /app
+COPY --from=BASE /app/node_modules ./node_modules
 COPY . .
 RUN apk add --no-cache git curl \
     && yarn build \
-    && rm -rf node_modules \
-    && yarn install --production --frozen-lockfile --ignore-scripts --prefer-offline \
-    # Follow https://github.com/ductnn/Dockerfile/blob/master/nodejs/node/16/alpine/Dockerfile
-    && node-prune
+    && cd .next/standalone \
+    && curl -sf https://gobinaries.com/tj/node-prune | sh
 
 
 # Build production
-FROM alpine:3.16 as PRODUCTION
+FROM node:16-alpine AS PRODUCTION
+LABEL author="tinguyen"
 
-ENV NODE_VERSION 19.9.0
+WORKDIR /app
+COPY --from=BUILD /app/public ./public
+COPY --from=BUILD /app/next.config.js ./
 
-WORKDIR /appp
+# Set mode "standalone" in file "next.config.js"
+COPY --from=BUILD /app/.next/standalone ./
+COPY --from=BUILD /app/.next/static ./.next/static
 
-COPY --from=BUILD /appp/package.json /appp/yarn.lock ./
-COPY --from=BUILD /appp/node_modules ./node_modules
-COPY --from=BUILD /appp/.next ./.next
-COPY --from=BUILD /appp/public ./public
-# COPY --from=BUILD /appp/next.config.js ./
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["node", "server.js"]
+
