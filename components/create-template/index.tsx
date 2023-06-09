@@ -39,17 +39,21 @@ export const CreateTemplate = () => {
     setIsSubmiting(true);
     try {
       // TODO: Submit data to server
-      await sleep(5000);
-      TemplateApi.createTemplate(data.name, {
+      const isSuccess = await TemplateApi.createTemplate(data.name, {
         global: TEMPLATE_GLOBAL_DEFAULT,
         dataset: TEMPLATE_DATASET_DEFAULT,
         ...data.config,
       });
 
-      // Update after created
-      toast({ ...toastBaseConfig, title: 'Create template successfully', status: 'success' });
-      queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_LIST]);
-      createTemplateForm.reset();
+      if (isSuccess) {
+        // Update after created
+        toast({ ...toastBaseConfig, title: 'Create template successfully', status: 'success' });
+        queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_LIST]);
+        createTemplateForm.reset();
+      }
+      else {
+        throw "Create template failed"
+      }
     } catch (e) {
       // TODO: handle error
       toast({ ...toastBaseConfig, title: 'Create template failed', status: 'error' });

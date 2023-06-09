@@ -144,3 +144,5 @@ export type PredictDto = {
   };
 };
 
+export type ScreenId = '/' | 'playround' | 'templates' | 'create-template';
+

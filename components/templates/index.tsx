@@ -1,15 +1,13 @@
 import React from 'react';
-import { Box, Button, HStack, TableContainer, Tbody, Text, Th, Thead, Tr, Table } from '@chakra-ui/react';
-import { ScreenId } from '../../pages';
+import { Button, HStack, TableContainer, Tbody, Text, Th, Thead, Tr, Table } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
 import { TemplateApi } from '../../apis';
 import { TemplateRow } from './template-row';
+import { useRouter } from 'next/router';
 
-interface TemplatesProps {
-  router: (id: ScreenId) => void;
-}
 
-export const Templates = ({ router }: TemplatesProps) => {
+export const Templates = () => {
+  const router = useRouter();
   const templateListQuery = useQuery(['template-list'], () => TemplateApi.getTemplates());
   const templates = React.useMemo(() => {
     if (!!templateListQuery.data) return templateListQuery.data;
@@ -22,7 +20,7 @@ export const Templates = ({ router }: TemplatesProps) => {
         <Text fontSize="36px" fontWeight="700">
           Zoogle | Templates
         </Text>
-        <Button colorScheme="blue" onClick={() => router('create-template')}>
+        <Button colorScheme="blue" onClick={() => router.push('create-template')}>
           Create new template
         </Button>
       </HStack>
