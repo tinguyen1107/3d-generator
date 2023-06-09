@@ -8,7 +8,7 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 export default function HomePage() {
   const router = useRouter();
   const id = Number(router.query.id as string);
-  const models = (router.query.models as string).split(',')
+  const models = ["0a77cd2a91dfff53.obj"]
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function HomePage() {
         )
       }
       {
-        id < 6 && (
+        id < models.length - 1 && (
           <Box position="absolute" right="10px" top="50%" transform="translateY(-50%)">
             <IconButton colorScheme="blue" aria-label='previous' icon={<FiArrowRight />} onClick={() => {
               const url = new URL("render-model", window.location.origin);
@@ -42,6 +42,9 @@ export default function HomePage() {
           </Box>
         )
       }
+      <Box position="absolute" left="10px" top="10px" >
+        <Button colorScheme="blue" variant="outline" size="md" leftIcon={<FiArrowLeft />} onClick={() => router.push("/")} >Back</Button>
+      </Box>
     </>
   );
 }
