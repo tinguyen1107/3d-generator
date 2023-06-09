@@ -1,21 +1,23 @@
 import React from 'react';
-import { Td, Text, Box, Button } from '@chakra-ui/react';
+import { Td, Text, Box, Button, useToast } from '@chakra-ui/react';
 import moment from 'moment';
 import { Template, TemplateStatus } from '../../dtos';
 import { TemplateApi } from '../../apis';
 import { useQuery, useQueryClient } from 'react-query';
 import { CachePrefixKeys } from '../../constants';
+import { toastBaseConfig } from '../../utils';
 
 const TemplateAction = ({ id, status }: { id: string; status: TemplateStatus }) => {
   const queryClient = useQueryClient();
+  const toast = useToast()
   const title = React.useMemo(() => {
     switch (status) {
       case 'pending':
         return 'Train';
       case 'training':
         return 'Waiting...';
-      case 'finished':
-        return 'Re-Train';
+      case 'ready':
+        return 'Delete';
     }
   }, [status]);
 
@@ -26,9 +28,20 @@ const TemplateAction = ({ id, status }: { id: string; status: TemplateStatus }) 
     try {
       switch (status) {
         case 'pending':
-        case 'finished':
-          await TemplateApi.trainTemplate(id);
-          queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_STATUS, id]);
+          if (await TemplateApi.trainTemplate(id)) {
+            toast({ ...toastBaseConfig, title: "Delete template successfully", status: "success" })
+            queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_STATUS, id]);
+          } else {
+            toast({ ...toastBaseConfig, title: "Delete template failed", status: "error" })
+          }
+          break;
+        case 'ready':
+          if (await TemplateApi.deleteTemplate(id)) {
+            toast({ ...toastBaseConfig, title: "Delete template successfully", status: "success" })
+            queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_LIST, id]);
+          } else {
+            toast({ ...toastBaseConfig, title: "Delete template failed", status: "error" })
+          }
           break;
         case 'training':
           // Do nothing
