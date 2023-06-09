@@ -5,12 +5,15 @@ import { Select } from 'chakra-react-select';
 import { CachePrefixKeys } from '../../constants';
 import { ModelApi, TemplateApi } from '../../apis';
 import { useQuery } from 'react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useRouter } from 'next/router';
 
 export const Playground = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [model, setModel] = React.useState<string>();
   const [listItem, setListItem] = React.useState<string[]>([]);
   const [isLoading, setLoading] = React.useState<boolean>(false);
+  const router = useRouter()
 
   const handleOnSubmitButtonClick = React.useCallback(async () => {
     console.log('Submit: ', inputRef.current?.value);
@@ -22,6 +25,11 @@ export const Playground = () => {
       const predicts = await TemplateApi.predictWithTemplate(model, value);
 
       setListItem(predicts);
+
+      const url = new URL("render-model", window.location.origin);
+      url.searchParams.append("id", "0");
+      url.searchParams.append("models", predicts.join(','))
+      router.push(url)
 
       setLoading(false);
 
@@ -67,38 +75,6 @@ export const Playground = () => {
           </Button>
         </HStack>
       </VStack>
-      <Box overflowY="auto">
-        {isLoading ? (
-          <Center w="100%" h="400px">
-            <Spinner size="xl" thickness="4px" opacity="0.6" />
-          </Center>
-        ) : listItem.length == 0 ? (
-          <Center w="100%" h="400px">
-            <Text fontSize="32px" fontWeight="500" opacity="0.5">
-              No Models found
-            </Text>
-          </Center>
-        ) : (
-          <Grid
-            mt="15px"
-            flex={1}
-            w="100%"
-            templateColumns={{
-              base: 'repeat(1, minmax(300px, 1fr))',
-              md: `repeat(${listItem.length / 2}, minmax(300px, 1fr))`,
-            }}
-            gap="10px"
-          >
-            {listItem.map((item, id) => (
-              <GridItem key={`${id}_${item}`} h="300px">
-                <Box h="100%" border="solid 1px #bbb" borderRadius="10px" overflow="hidden">
-                  <Wrapper link={item} />
-                </Box>
-              </GridItem>
-            ))}
-          </Grid>
-        )}
-      </Box>
     </>
   );
 };

@@ -85,12 +85,12 @@ export const TemplateApi = Object.freeze({
   async predictWithTemplate(id: string, query: string): Promise<string[]> {
     try {
       const url = new URL(`software/v1/template_machine/predict/${id}`, BASE_URL);
-      url.searchParams.append('n_item', '4');
+      url.searchParams.append('n_item', '6');
       url.searchParams.append('sentence', query);
       const res = await axios.get(url.toString());
       const predicts: PredictDto = JSON.parse(res.data);
 
-      return predicts.abc.pred_ids.slice(0, 4).map((e: string) => e + '.obj');
+      return predicts.abc.pred_ids.slice(0, 6).map((e: string) => e + '.obj');
     } catch (e) {
       return [];
     }
