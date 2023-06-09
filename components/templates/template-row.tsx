@@ -6,7 +6,7 @@ import { TemplateApi } from '../../apis';
 import { useQuery, useQueryClient } from 'react-query';
 import { CachePrefixKeys } from '../../constants';
 
-const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) => {
+const TemplateAction = ({ id, status }: { id: string; status: TemplateStatus }) => {
   const queryClient = useQueryClient();
   const title = React.useMemo(() => {
     switch (status) {
@@ -19,32 +19,30 @@ const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) 
     }
   }, [status]);
 
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const onClick = React.useCallback(async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       switch (status) {
         case 'pending':
         case 'finished':
-          await TemplateApi.trainTemplate(id)
-          queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_STATUS, id])
+          await TemplateApi.trainTemplate(id);
+          queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_STATUS, id]);
           break;
         case 'training':
           // Do nothing
           break;
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
+    } finally {
+      setIsLoading(false);
     }
-    finally {
-      setIsLoading(false)
-    }
-  }, [id, status])
+  }, [id, status]);
 
   return (
-    <Button
-      width="120px" colorScheme="blue" isDisabled={status == 'training'} isLoading={isLoading} onClick={onClick}>
+    <Button width="120px" colorScheme="blue" isDisabled={status == 'training'} isLoading={isLoading} onClick={onClick}>
       {title}
     </Button>
   );
@@ -55,12 +53,12 @@ export const TemplateRow: React.FunctionComponent<{ template: Template }> = ({ t
   const statusQuery = useQuery(
     [CachePrefixKeys.TEMPLATE_STATUS, template.id],
     () => TemplateApi.getTemplateStatusById(template.id),
-    { refetchInterval: 1000 * 5, enabled: template.status == "training" }
+    { refetchInterval: 1000 * 5, enabled: template.status == 'training' }
   );
   const status = React.useMemo(() => {
     if (!!statusQuery.data) return statusQuery.data;
-    return template.status
-  }, [statusQuery.data, template.status])
+    return template.status;
+  }, [statusQuery.data, template.status]);
 
   return (
     <>
