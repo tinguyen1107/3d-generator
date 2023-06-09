@@ -108,7 +108,7 @@ interface CustomSliderProps {
 const CustomNumberInput = ({ min, max, step, defVal, value, onChange, format }: CustomSliderProps) => {
   React.useEffect(() => {
     if (!value) {
-      onChange(defVal)
+      onChange(defVal);
     }
   }, [defVal]);
   return (
@@ -119,7 +119,8 @@ const CustomNumberInput = ({ min, max, step, defVal, value, onChange, format }: 
       step={step}
       format={format}
       value={value}
-      onChange={(_s, n) => onChange(n)} >
+      onChange={(_s, n) => onChange(n)}
+    >
       <NumberInputField />
       <NumberInputStepper>
         <NumberIncrementStepper />

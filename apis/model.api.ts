@@ -8,10 +8,10 @@ export const ModelApi = Object.freeze({
   async getModels(): Promise<string[]> {
     try {
       const url = new URL(`/model/list`, BASE_URL);
-      // const res = await axios.get(url.toString());
-      return ["abc", "def"];
+      const res = await axios.get(url.toString());
+      return res.data;
     } catch (e) {
-      return []
+      return [];
     }
   },
 });

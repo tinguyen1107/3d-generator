@@ -6,13 +6,6 @@ import { CachePrefixKeys } from '../../constants';
 import { ModelApi, TemplateApi } from '../../apis';
 import { useQuery } from 'react-query';
 
-type PredictDto = {
-  abc: {
-    pred_ids: [string];
-    scores: [number];
-  };
-};
-
 export const Playground = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [model, setModel] = React.useState<string>();
