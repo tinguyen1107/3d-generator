@@ -5,18 +5,30 @@ import { Select } from 'chakra-react-select';
 import { useQuery } from 'react-query';
 import { CachePrefixKeys } from '../../constants';
 import { TemplateApi } from '../../apis';
+import { CustomNumberInput } from './custom-number-input';
 
 export const ModelForm = ({ parentForm }: FormProps) => {
-  const extractorListQuery = useQuery([CachePrefixKeys.TEMPLATE_EXTRACTOR_TEXT_NAME], () =>
-    TemplateApi.getExtractorList()
+  const extractorPointCloudListQuery = useQuery([CachePrefixKeys.TEMPLATE_EXTRACTOR_POINTCLOUD_NAME], () =>
+    TemplateApi.getExtractorPointCloudList()
   );
-  const extractorList = React.useMemo(() => {
-    if (extractorListQuery.data)
-      return extractorListQuery.data.map((e) => {
+  const extractorPointCloudList = React.useMemo(() => {
+    if (extractorPointCloudListQuery.data)
+      return extractorPointCloudListQuery.data.map((e) => {
         return { label: e, value: e };
       });
     else return [];
-  }, [extractorListQuery.data?.length]);
+  }, [extractorPointCloudListQuery.data?.length]);
+
+  const extractorTextListQuery = useQuery([CachePrefixKeys.TEMPLATE_EXTRACTOR_TEXT_NAME], () =>
+    TemplateApi.getExtractorTextList()
+  );
+  const extractorTextList = React.useMemo(() => {
+    if (extractorTextListQuery.data)
+      return extractorTextListQuery.data.map((e) => {
+        return { label: e, value: e };
+      });
+    else return [];
+  }, [extractorTextListQuery.data?.length]);
   return (
     <VStack mt="10px" align="start">
       <Text fontSize="24px" fontWeight="800">
@@ -34,7 +46,7 @@ export const ModelForm = ({ parentForm }: FormProps) => {
         Point Cloud {/* fetch api cho user chon /software/v1/extractor/list */}
       </Text>
       <FormControl>
-        <FormLabel>Name{JSON.stringify(extractorList)}</FormLabel>
+        <FormLabel>Name</FormLabel>
         <Select
           defaultValue={{
             label: parentForm.getValues('config.model.extractor.pointcloud.name'),
@@ -43,7 +55,7 @@ export const ModelForm = ({ parentForm }: FormProps) => {
           onChange={(val) => {
             if (!!val?.label) parentForm.setValue('config.model.extractor.pointcloud.name', val?.label);
           }}
-          options={extractorList}
+          options={extractorPointCloudList}
         />
       </FormControl>
       <Text fontSize="14px" fontWeight="500">
@@ -59,7 +71,7 @@ export const ModelForm = ({ parentForm }: FormProps) => {
           onChange={(val) => {
             if (!!val?.label) parentForm.setValue('config.model.extractor.text.name', val?.label);
           }}
-          options={extractorList}
+          options={extractorTextList}
         />
       </FormControl>
 
@@ -71,14 +83,28 @@ export const ModelForm = ({ parentForm }: FormProps) => {
       </Text>
       <FormControl>
         <FormLabel>Number of hidden layers</FormLabel>
-        <Input {...parentForm.register('config.model.encoder.pointcloud.num_hidden_layer')} />
+        <CustomNumberInput
+          min={1}
+          max={5}
+          step={1}
+          defVal={3}
+          value={parentForm.watch('config.model.encoder.pointcloud.num_hidden_layer')}
+          onChange={(val) => parentForm.setValue('config.model.encoder.pointcloud.num_hidden_layer', val)}
+        />
       </FormControl>
       <Text fontSize="14px" fontWeight="500">
         Text
       </Text>
       <FormControl>
         <FormLabel>Number of hidden layers</FormLabel>
-        <Input {...parentForm.register('config.model.encoder.text.num_hidden_layer')} />
+        <CustomNumberInput
+          min={1}
+          max={5}
+          step={1}
+          defVal={3}
+          value={parentForm.watch('config.model.encoder.text.num_hidden_layer')}
+          onChange={(val) => parentForm.setValue('config.model.encoder.text.num_hidden_layer', val)}
+        />
       </FormControl>
     </VStack>
   );

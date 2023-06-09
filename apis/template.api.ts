@@ -8,9 +8,18 @@ export const TemplateApi = Object.freeze({
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   },
 
-  async getExtractorList(): Promise<string[]> {
+  async getExtractorPointCloudList(): Promise<string[]> {
     try {
-      const url = new URL('software/v1/extractor/list', BASE_URL);
+      const url = new URL('software/v1/extractor/list/pointcloud', BASE_URL);
+      const res = await axios.get(url.toString());
+      return res.data;
+    } catch (e) {
+      return [];
+    }
+  },
+  async getExtractorTextList(): Promise<string[]> {
+    try {
+      const url = new URL('software/v1/extractor/list/text', BASE_URL);
       const res = await axios.get(url.toString());
       return res.data;
     } catch (e) {
@@ -25,7 +34,7 @@ export const TemplateApi = Object.freeze({
         return {
           id: temp.template_id,
           name: temp.template_name,
-          status: temp.template_status,
+          status: temp.status,
           createdAt: temp.create_at
         }
       });
@@ -55,6 +64,15 @@ export const TemplateApi = Object.freeze({
       return false;
     }
   },
+  async deleteTemplate(id: string): Promise<boolean> {
+    try {
+      const url = new URL(`software/v1/template_management/template/delete/${id}`, BASE_URL);
+      await axios.delete(url.toString());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
   async trainTemplate(id: string): Promise<boolean> {
     try {
       const url = new URL(`software/v1/template_machine/train/${id}`, BASE_URL);
@@ -68,7 +86,7 @@ export const TemplateApi = Object.freeze({
     try {
       const url = new URL(`software/v1/template_machine/predict/${id}`, BASE_URL);
       url.searchParams.append('n_item', '4');
-      url.searchParams.append('query', query);
+      url.searchParams.append('sentence', query);
       const res = await axios.get(url.toString());
       const predicts: PredictDto = JSON.parse(res.data);
 
