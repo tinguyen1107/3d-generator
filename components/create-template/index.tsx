@@ -9,9 +9,9 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { CreateTemplateInputs } from '../../dtos';
 import * as YAML from 'js-yaml';
 import { CREATE_TEMPLATE_DEFAULT_VALUE, TEMPLATE_DATASET_DEFAULT, TEMPLATE_GLOBAL_DEFAULT } from '../../constants';
-import { toastBaseConfig } from '../../utils'
+import { toastBaseConfig } from '../../utils';
 import { useQueryClient } from 'react-query';
-import { CachePrefixKeys } from '../../constants/cache-prefix-keys';
+import { CachePrefixKeys } from '../../constants';
 import { TemplateApi } from '../../apis';
 
 export const sleep = (milliseconds: number) => {

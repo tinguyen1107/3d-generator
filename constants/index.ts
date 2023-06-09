@@ -1,5 +1,7 @@
 import { CreateTemplateInputs, DatasetConfig, GlobalConfig } from "../dtos";
 
+export * from './cache-prefix-keys'
+
 export const PRICE_FRACTION_DIGITS = 3;
 export const RATIO_AMOUT_TO_CREATE_TASK = 110 / 100;
 export const FETCH_POSTS_LIMIT = 8;

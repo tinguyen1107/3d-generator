@@ -136,3 +136,11 @@ export interface CreateTemplateInputs {
     callbacks: CallbackConfig[];
   };
 }
+
+export type PredictDto = {
+  abc: {
+    pred_ids: [string];
+    scores: [number];
+  };
+};
+

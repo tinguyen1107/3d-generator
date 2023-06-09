@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Template, TemplateStatus } from '../../dtos';
 import { TemplateApi } from '../../apis';
 import { useQuery, useQueryClient } from 'react-query';
-import { CachePrefixKeys } from '../../constants/cache-prefix-keys';
+import { CachePrefixKeys } from '../../constants';
 
 const TemplateAction = ({ id, status }: { id: string, status: TemplateStatus }) => {
   const queryClient = useQueryClient();
