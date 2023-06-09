@@ -4,13 +4,9 @@ import {
   FormLabel,
   Text,
   VStack,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { FormProps } from '.';
+import { CustomNumberInput } from './custom-number-input';
 
 export const TrainerForm = ({ parentForm }: FormProps) => {
   return (
@@ -92,40 +88,5 @@ export const TrainerForm = ({ parentForm }: FormProps) => {
         />
       </FormControl>
     </VStack>
-  );
-};
-
-interface CustomSliderProps {
-  min: number;
-  max: number;
-  step: number;
-  format?: (val: string | number) => string | number;
-  defVal: number;
-  value: number;
-  onChange: (val: number) => void;
-}
-
-const CustomNumberInput = ({ min, max, step, defVal, value, onChange, format }: CustomSliderProps) => {
-  React.useEffect(() => {
-    if (!value) {
-      onChange(defVal);
-    }
-  }, [defVal]);
-  return (
-    <NumberInput
-      allowMouseWheel
-      min={min}
-      max={max}
-      step={step}
-      format={format}
-      value={value}
-      onChange={(_s, n) => onChange(n)}
-    >
-      <NumberInputField />
-      <NumberInputStepper>
-        <NumberIncrementStepper />
-        <NumberDecrementStepper />
-      </NumberInputStepper>
-    </NumberInput>
   );
 };
