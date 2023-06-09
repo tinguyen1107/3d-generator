@@ -5,4 +5,4 @@ export type Template = {
   createdAt: number;
 };
 
-export type TemplateStatus = 'pending' | 'training' | 'finished';
+export type TemplateStatus = 'pending' | 'training' | 'ready';
