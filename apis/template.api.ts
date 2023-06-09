@@ -88,7 +88,7 @@ export const TemplateApi = Object.freeze({
       url.searchParams.append('n_item', '6');
       url.searchParams.append('sentence', query);
       const res = await axios.get(url.toString());
-      const predicts: PredictDto = JSON.parse(res.data);
+      const predicts: PredictDto = JSON.parse(JSON.stringify(res.data));
 
       return predicts.abc.pred_ids.slice(0, 6).map((e: string) => e + '.obj');
     } catch (e) {
