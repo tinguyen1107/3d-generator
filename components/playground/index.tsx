@@ -15,6 +15,7 @@ export const Playground = () => {
   const handleOnSubmitButtonClick = React.useCallback(async () => {
     console.log('Submit: ', inputRef.current?.value);
     if (!!inputRef.current && !!inputRef.current.value && !!model) {
+      console.log("model", model)
       const value = inputRef.current.value;
       setLoading(true);
 
@@ -27,7 +28,7 @@ export const Playground = () => {
       // Clear input field
       inputRef.current.value = '';
     }
-  }, []);
+  }, [model]);
 
   const listModelQuery = useQuery([CachePrefixKeys.MODEL_LIST], () => ModelApi.getModels());
   const listModels = React.useMemo(() => {
@@ -39,7 +40,7 @@ export const Playground = () => {
           variant: 'outline', // The option variant overrides the global
         };
       });
-    else return [];
+    else return [{ label: "a", value: "b" }];
   }, [listModelQuery.data]);
 
   // TODO: select models
@@ -52,7 +53,10 @@ export const Playground = () => {
         <Text fontSize="18px" fontWeight="700">
           Choose model
         </Text>
-        <Select placeholder="Model 01..." onChange={(val) => setModel(val?.value)} options={listModels} />
+        <Select placeholder="Model 01..." onChange={(val) => {
+          console.log("FUCK", val)
+          setModel(val?.value)
+        }} options={listModels} />
         <Text fontSize="18px" fontWeight="700">
           Input any text
         </Text>
