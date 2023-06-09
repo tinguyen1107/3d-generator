@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { BASE_URL } from '../constants';
-import { Template, TemplateConfig, TemplateStatus } from '../dtos';
+import { PredictDto, Template, TemplateConfig, TemplateStatus } from '../dtos';
 import * as YAML from 'js-yaml';
 
 export const TemplateApi = Object.freeze({
@@ -9,22 +9,22 @@ export const TemplateApi = Object.freeze({
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   },
 
-  async getExtractorList(id: string, query: string): Promise<string[]> {
+  async getExtractorList(): Promise<string[]> {
     try {
       const url = new URL(`/extractor/list`, BASE_URL);
-      const res = await axios.get(url.toString());
-      return ["abc", "def"];
+      // const res = await axios.get(url.toString());
+      return ['CurveNet', 'abc', 'def'];
     } catch (e) {
-      return []
+      return [];
     }
   },
   async getModels(): Promise<string[]> {
     try {
       const url = new URL(`/model/list`, BASE_URL);
       const res = await axios.get(url.toString());
-      return ["abc", "def"];
+      return ['abc', 'def'];
     } catch (e) {
-      return []
+      return [];
     }
   },
   async getTemplates(): Promise<Template[]> {
@@ -55,30 +55,30 @@ export const TemplateApi = Object.freeze({
     return data;
   },
   async getTemplateStatusById(id: string): Promise<TemplateStatus> {
-    console.log(id, "fetch")
+    console.log(id, 'fetch');
     try {
       const res = await axios.get(BASE_URL + `/template_management/template/${id}/status`);
       return res.data;
     } catch (e) { }
     // return res.data;
-    if (id == "template_01") return 'pending'
-    else if (id == "template_02") return "training"
-    else if (id == "template_03") return "finished"
+    if (id == 'template_01') return 'pending';
+    else if (id == 'template_02') return 'training';
+    else if (id == 'template_03') return 'finished';
 
-    return 'pending'
+    return 'pending';
   },
   async createTemplate(templateName: string, templateConfig: TemplateConfig): Promise<boolean> {
     try {
       const payload = {
         template_name: templateName,
         template: YAML.dump(templateConfig),
-      }
-      console.log(payload)
-      await this.sleep(5000)
+      };
+      console.log(payload);
+      await this.sleep(5000);
       // const res = await axios.post(BASE_URL + '/template_management/template/create', payload);
-      return true
+      return true;
     } catch (e) {
-      return false
+      return false;
     }
   },
   async trainTemplate(id: string): Promise<boolean> {
@@ -86,22 +86,29 @@ export const TemplateApi = Object.freeze({
       const res = await axios.get(BASE_URL + `/template_machine/train/${id}`);
       return true;
     } catch (e) {
-      return false
+      return false;
     }
   },
-  async predictWithTemplate(id: string, query: string): Promise<boolean> {
-    try {
-      const url = new URL(`/template_machine/predict/${id}`, BASE_URL);
-      url.searchParams.append("n_item", "4");
-      url.searchParams.append("query", query)
-      const res = await axios.get(url.toString());
-      return true;
-    } catch (e) {
-      return false
+  async predictWithTemplate(id: string, query: string): Promise<string[]> {
+    // try {
+    //   const url = new URL(`/template_machine/predict/${id}`, BASE_URL);
+    //   url.searchParams.append('n_item', '4');
+    //   url.searchParams.append('query', query);
+    //   const res = await axios.get(url.toString());
+    //   const predicts: PredictDto = JSON.parse(res.data);
+    //
+    //   return predicts.abc.pred_ids.slice(0, 4).map((e: string) => e + '.obj');
+    // } catch (e) {
+    //   return [];
+    // }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    let result: string[] = [];
+    while (result.length < 4) {
+      result.push(String(Math.floor(Math.random() * 11)));
     }
+    return result.map((e) => e + '.obj');
   },
-
-
 });
 
 // const mapToAccounts = (raws: any[]): AccountDto[] => {

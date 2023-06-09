@@ -1,6 +1,10 @@
 import React from 'react';
-import { Box, Button, Center, Grid, GridItem, HStack, Input, Spinner, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Grid, GridItem, HStack, Input, Spinner, Text, VStack } from '@chakra-ui/react';
 import { Wrapper } from '../';
+import { Select } from 'chakra-react-select';
+import { CachePrefixKeys } from '../../constants';
+import { ModelApi, TemplateApi } from '../../apis';
+import { useQuery } from 'react-query';
 
 type PredictDto = {
   abc: {
@@ -11,17 +15,19 @@ type PredictDto = {
 
 export const Playground = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [model, setModel] = React.useState<string>();
   const [listItem, setListItem] = React.useState<string[]>([]);
   const [isLoading, setLoading] = React.useState<boolean>(false);
 
   const handleOnSubmitButtonClick = React.useCallback(async () => {
     console.log('Submit: ', inputRef.current?.value);
-    if (!!inputRef.current && !!inputRef.current.value) {
+    if (!!inputRef.current && !!inputRef.current.value && !!model) {
       const value = inputRef.current.value;
       setLoading(true);
 
-      const res = (await blackbox(value)) as [string];
-      setListItem(res);
+      const predicts = await TemplateApi.predictWithTemplate(model, value);
+
+      setListItem(predicts);
 
       setLoading(false);
 
@@ -30,22 +36,18 @@ export const Playground = () => {
     }
   }, []);
 
-  const blackbox = React.useCallback(async (input: string) => {
-    // let url = new URL('/predict', 'http://0.0.0.0:8888');
-    // url.searchParams.append('n_item', '4');
-    // url.searchParams.append('sentence', input);
-    //
-    // const rawRes = (await axios.get(url.toString(), { headers: {} })).data;
-    // const res: PredictDto = JSON.parse(rawRes);
-    //
-    // return res.abc.pred_ids.slice(0, 4).map((e: string) => e + '.obj');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    let result: string[] = [];
-    while (result.length < 4) {
-      result.push(String(Math.floor(Math.random() * 11)));
-    }
-    return result.map((e) => e + '.obj');
-  }, []);
+  const listModelQuery = useQuery([CachePrefixKeys.MODEL_LIST], () => ModelApi.getModels());
+  const listModels = React.useMemo(() => {
+    if (listModelQuery.data)
+      return listModelQuery.data.map((e) => {
+        return {
+          label: e,
+          value: e,
+          variant: 'outline', // The option variant overrides the global
+        };
+      });
+    else return [];
+  }, [listModelQuery.data]);
 
   // TODO: select models
   return (
@@ -53,15 +55,21 @@ export const Playground = () => {
       <Text fontSize="36px" fontWeight="700">
         Zoogle | 3D Generator
       </Text>
-      <Text fontSize="24px" fontWeight="700">
-        Input any text
-      </Text>
-      <HStack mt="10px">
-        <Input ref={inputRef} placeholder="Abc.." />
-        <Button colorScheme="blue" onClick={handleOnSubmitButtonClick}>
-          Submit
-        </Button>
-      </HStack>
+      <VStack maxW="500px" align="stretch">
+        <Text fontSize="18px" fontWeight="700">
+          Choose model
+        </Text>
+        <Select placeholder="Model 01..." onChange={(val) => setModel(val?.value)} options={listModels} />
+        <Text fontSize="18px" fontWeight="700">
+          Input any text
+        </Text>
+        <HStack>
+          <Input ref={inputRef} placeholder="Abc.." />
+          <Button colorScheme="blue" isLoading={isLoading} onClick={handleOnSubmitButtonClick}>
+            Submit
+          </Button>
+        </HStack>
+      </VStack>
       <Box overflowY="auto">
         {isLoading ? (
           <Center w="100%" h="400px">

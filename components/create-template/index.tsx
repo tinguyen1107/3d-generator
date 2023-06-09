@@ -26,38 +26,38 @@ export interface FormProps {
 
 export const CreateTemplate = () => {
   const queryClient = useQueryClient();
-  const [templateId, setTemplateId] = React.useState<TemplateId>('general-info')
+  const [templateId, setTemplateId] = React.useState<TemplateId>('general-info');
 
   const createTemplateForm = useForm<CreateTemplateInputs>({ defaultValues: CREATE_TEMPLATE_DEFAULT_VALUE });
-  const [isSubmiting, setIsSubmiting] = React.useState<boolean>(false)
+  const [isSubmiting, setIsSubmiting] = React.useState<boolean>(false);
 
-  const toast = useToast()
+  const toast = useToast();
 
   const handleCreateTemplateFormSubmit = React.useCallback(async (data: CreateTemplateInputs) => {
-    console.log("Submit form with data: ", JSON.stringify(data, null, 2))
+    console.log('Submit form with data: ', JSON.stringify(data, null, 2));
     // Start loading
-    setIsSubmiting(true)
+    setIsSubmiting(true);
     try {
       // TODO: Submit data to server
-      await sleep(5000)
+      await sleep(5000);
       TemplateApi.createTemplate(data.name, {
         global: TEMPLATE_GLOBAL_DEFAULT,
         dataset: TEMPLATE_DATASET_DEFAULT,
-        ...data.config
-      })
+        ...data.config,
+      });
 
       // Update after created
-      toast({ ...toastBaseConfig, title: "Create template successfully", status: "success" })
+      toast({ ...toastBaseConfig, title: 'Create template successfully', status: 'success' });
       queryClient.invalidateQueries([CachePrefixKeys.TEMPLATE_LIST]);
-      createTemplateForm.reset()
+      createTemplateForm.reset();
     } catch (e) {
       // TODO: handle error
-      toast({ ...toastBaseConfig, title: "Create template failed", status: "error" })
+      toast({ ...toastBaseConfig, title: 'Create template failed', status: 'error' });
     } finally {
       // End loading
-      setIsSubmiting(false)
+      setIsSubmiting(false);
     }
-  }, [])
+  }, []);
 
   const nextStep = React.useMemo(() => {
     switch (templateId) {
@@ -70,9 +70,7 @@ export const CreateTemplate = () => {
       case 'trainer':
         return createTemplateForm.handleSubmit(handleCreateTemplateFormSubmit);
     }
-
   }, [templateId]);
-
 
   const previousStep = React.useMemo(() => {
     switch (templateId) {
